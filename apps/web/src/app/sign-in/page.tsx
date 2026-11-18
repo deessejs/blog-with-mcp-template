@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createAuthClient } from "better-auth/react";
-
-const authClient = createAuthClient();
+import { authClient } from "@/lib/auth-client";
 
 export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +12,6 @@ export default function SignInPage() {
     const result = await authClient.signIn.email({
       email: String(formData.get("email")),
       password: String(formData.get("password")),
-      callbackURL: "/admin",
     });
     setPending(false);
     if (result.error) setError(result.error.message ?? "Unable to sign in.");

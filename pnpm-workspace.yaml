@@ -20,6 +20,7 @@ catalog:
 
   # Auth
   "@better-auth/mcp": ^1.7.25
+  "@better-auth/oauth-provider": ^1.7.25
   "@modelcontextprotocol/server": ^2.0.0
   "@better-auth/drizzle-adapter": ^1.7.25
   '@changesets/changelog-git': ^0.2.1
