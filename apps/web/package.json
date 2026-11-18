@@ -1,41 +1,38 @@
 {
   "name": "web",
   "version": "0.0.1",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "lint": "pnpm --dir ../../ exec oxlint --config .oxlintrc.json apps/web --deny-warnings",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@better-auth/mcp": "catalog:",
+    "@better-auth/oauth-provider": "catalog:",
+    "@modelcontextprotocol/server": "catalog:",
+    "@workspace/auth": "workspace:*",
+    "@workspace/database": "workspace:*",
+    "@workspace/env": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "better-auth": "catalog:",
+    "drizzle-orm": "catalog:",
     "lucide-react": "catalog:",
     "next": "catalog:",
     "next-themes": "^0.4.6",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "zustand": "catalog:",
-    "@modelcontextprotocol/server": "catalog:",
-    "@workspace/auth": "workspace:*",
-    "@workspace/database": "workspace:*",
-    "drizzle-orm": "catalog:",
-    "better-auth": "catalog:",
-    "@better-auth/oauth-provider": "catalog:",
-    "@better-auth/mcp": "catalog:",
-    "@workspace/env": "workspace:*"
+    "zustand": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
-    "eslint": "^9",
     "typescript": "catalog:",
     "zod": "catalog:"
   }

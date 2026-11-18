@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations } from "drizzle-orm"
 import {
   pgTable,
   text,
@@ -8,7 +8,7 @@ import {
   jsonb,
   index,
   uniqueIndex,
-} from "drizzle-orm/pg-core";
+} from "drizzle-orm/pg-core"
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -25,7 +25,7 @@ export const user = pgTable("user", {
   banned: boolean("banned").default(false),
   banReason: text("ban_reason"),
   banExpires: timestamp("ban_expires"),
-});
+})
 
 export const session = pgTable(
   "session",
@@ -44,8 +44,8 @@ export const session = pgTable(
       .references(() => user.id, { onDelete: "cascade" }),
     impersonatedBy: text("impersonated_by"),
   },
-  (table) => [index("session_userId_idx").on(table.userId)],
-);
+  (table) => [index("session_userId_idx").on(table.userId)]
+)
 
 export const account = pgTable(
   "account",
@@ -68,8 +68,8 @@ export const account = pgTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
-  (table) => [index("account_userId_idx").on(table.userId)],
-);
+  (table) => [index("account_userId_idx").on(table.userId)]
+)
 
 export const verification = pgTable(
   "verification",
@@ -84,8 +84,8 @@ export const verification = pgTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
-  (table) => [index("verification_identifier_idx").on(table.identifier)],
-);
+  (table) => [index("verification_identifier_idx").on(table.identifier)]
+)
 
 export const jwks = pgTable("jwks", {
   id: text("id").primaryKey(),
@@ -95,7 +95,7 @@ export const jwks = pgTable("jwks", {
   expiresAt: timestamp("expires_at"),
   alg: text("alg"),
   crv: text("crv"),
-});
+})
 
 export const oauthClient = pgTable(
   "oauth_client",
@@ -128,7 +128,7 @@ export const oauthClient = pgTable(
     postLogoutRedirectUris: text("post_logout_redirect_uris").array(),
     backchannelLogoutUri: text("backchannel_logout_uri"),
     backchannelLogoutSessionRequired: boolean(
-      "backchannel_logout_session_required",
+      "backchannel_logout_session_required"
     ),
     tokenEndpointAuthMethod: text("token_endpoint_auth_method"),
     applicationType: text("application_type"),
@@ -141,8 +141,8 @@ export const oauthClient = pgTable(
     referenceId: text("reference_id"),
     metadata: jsonb("metadata"),
   },
-  (table) => [index("oauthClient_userId_idx").on(table.userId)],
-);
+  (table) => [index("oauthClient_userId_idx").on(table.userId)]
+)
 
 export const oauthResource = pgTable("oauth_resource", {
   id: text("id").primaryKey(),
@@ -155,14 +155,14 @@ export const oauthResource = pgTable("oauth_resource", {
   allowedScopes: text("allowed_scopes").array(),
   customClaims: jsonb("custom_claims"),
   dpopBoundAccessTokensRequired: boolean(
-    "dpop_bound_access_tokens_required",
+    "dpop_bound_access_tokens_required"
   ).default(false),
   disabled: boolean("disabled").default(false),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
   policyVersion: integer("policy_version").default(1),
   metadata: jsonb("metadata"),
-});
+})
 
 export const oauthClientResource = pgTable(
   "oauth_client_resource",
@@ -180,12 +180,12 @@ export const oauthClientResource = pgTable(
   (table) => [
     uniqueIndex("oauthClientResource_clientId_resourceId_uidx").on(
       table.clientId,
-      table.resourceId,
+      table.resourceId
     ),
     index("oauthClientResource_clientId_idx").on(table.clientId),
     index("oauthClientResource_resourceId_idx").on(table.resourceId),
-  ],
-);
+  ]
+)
 
 export const oauthRefreshToken = pgTable(
   "oauth_refresh_token",
@@ -220,10 +220,10 @@ export const oauthRefreshToken = pgTable(
     index("oauthRefreshToken_sessionId_idx").on(table.sessionId),
     index("oauthRefreshToken_userId_idx").on(table.userId),
     index("oauthRefreshToken_authorizationCodeId_idx").on(
-      table.authorizationCodeId,
+      table.authorizationCodeId
     ),
-  ],
-);
+  ]
+)
 
 export const oauthAccessToken = pgTable(
   "oauth_access_token",
@@ -255,11 +255,11 @@ export const oauthAccessToken = pgTable(
     index("oauthAccessToken_sessionId_idx").on(table.sessionId),
     index("oauthAccessToken_userId_idx").on(table.userId),
     index("oauthAccessToken_authorizationCodeId_idx").on(
-      table.authorizationCodeId,
+      table.authorizationCodeId
     ),
     index("oauthAccessToken_refreshId_idx").on(table.refreshId),
-  ],
-);
+  ]
+)
 
 export const oauthConsent = pgTable(
   "oauth_consent",
@@ -279,13 +279,13 @@ export const oauthConsent = pgTable(
   (table) => [
     index("oauthConsent_clientId_idx").on(table.clientId),
     index("oauthConsent_userId_idx").on(table.userId),
-  ],
-);
+  ]
+)
 
 export const oauthClientAssertion = pgTable("oauth_client_assertion", {
   id: text("id").primaryKey(),
   expiresAt: timestamp("expires_at").notNull(),
-});
+})
 
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
@@ -294,7 +294,7 @@ export const userRelations = relations(user, ({ many }) => ({
   oauthRefreshTokens: many(oauthRefreshToken),
   oauthAccessTokens: many(oauthAccessToken),
   oauthConsents: many(oauthConsent),
-}));
+}))
 
 export const sessionRelations = relations(session, ({ one, many }) => ({
   user: one(user, {
@@ -303,14 +303,14 @@ export const sessionRelations = relations(session, ({ one, many }) => ({
   }),
   oauthRefreshTokens: many(oauthRefreshToken),
   oauthAccessTokens: many(oauthAccessToken),
-}));
+}))
 
 export const accountRelations = relations(account, ({ one }) => ({
   user: one(user, {
     fields: [account.userId],
     references: [user.id],
   }),
-}));
+}))
 
 export const oauthClientRelations = relations(oauthClient, ({ one, many }) => ({
   user: one(user, {
@@ -321,11 +321,11 @@ export const oauthClientRelations = relations(oauthClient, ({ one, many }) => ({
   oauthRefreshTokens: many(oauthRefreshToken),
   oauthAccessTokens: many(oauthAccessToken),
   oauthConsents: many(oauthConsent),
-}));
+}))
 
 export const oauthResourceRelations = relations(oauthResource, ({ many }) => ({
   oauthClientResources: many(oauthClientResource),
-}));
+}))
 
 export const oauthClientResourceRelations = relations(
   oauthClientResource,
@@ -338,8 +338,8 @@ export const oauthClientResourceRelations = relations(
       fields: [oauthClientResource.resourceId],
       references: [oauthResource.identifier],
     }),
-  }),
-);
+  })
+)
 
 export const oauthRefreshTokenRelations = relations(
   oauthRefreshToken,
@@ -357,8 +357,8 @@ export const oauthRefreshTokenRelations = relations(
       references: [user.id],
     }),
     oauthAccessTokens: many(oauthAccessToken),
-  }),
-);
+  })
+)
 
 export const oauthAccessTokenRelations = relations(
   oauthAccessToken,
@@ -379,8 +379,8 @@ export const oauthAccessTokenRelations = relations(
       fields: [oauthAccessToken.refreshId],
       references: [oauthRefreshToken.id],
     }),
-  }),
-);
+  })
+)
 
 export const oauthConsentRelations = relations(oauthConsent, ({ one }) => ({
   oauthClient: one(oauthClient, {
@@ -391,4 +391,4 @@ export const oauthConsentRelations = relations(oauthConsent, ({ one }) => ({
     fields: [oauthConsent.userId],
     references: [user.id],
   }),
-}));
+}))

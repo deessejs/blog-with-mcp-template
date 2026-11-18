@@ -1,5 +1,4 @@
 // Schema exports - add your tables here
 export * from "./auth"
 
-export * from "./articles";
-
+export * from "./articles"

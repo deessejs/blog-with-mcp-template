@@ -1,11 +1,17 @@
 {
   "name": "@workspace/cookies",
   "version": "0.0.1",
-  "type": "module",
   "private": true,
+  "type": "module",
+  "exports": {
+    "./store": "./src/store/cookie-consent.ts",
+    "./types": "./src/types.ts",
+    "./components/*": "./src/components/*.tsx",
+    "./content/*": "./src/content/*.tsx",
+    ".": "./src/index.ts"
+  },
   "scripts": {
-    "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "lint": "pnpm --dir ../../ exec oxlint --config .oxlintrc.json packages/cookies --deny-warnings",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -20,16 +26,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
-    "eslint": "^9",
     "typescript": "catalog:"
-  },
-  "exports": {
-    "./store": "./src/store/cookie-consent.ts",
-    "./types": "./src/types.ts",
-    "./components/*": "./src/components/*.tsx",
-    "./content/*": "./src/content/*.tsx",
-    ".": "./src/index.ts"
   }
 }

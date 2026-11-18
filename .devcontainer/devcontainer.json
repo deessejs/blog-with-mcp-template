@@ -30,11 +30,10 @@
         "typescript.preferences.importModuleSpecifier": "non-relative"
       },
       "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
         "prisma.prisma",
-        "ms-vscode.vscode-typescript-next"
+        "ms-vscode.vscode-typescript-next",
+        "oxc.oxc-vscode"
       ]
     }
   },

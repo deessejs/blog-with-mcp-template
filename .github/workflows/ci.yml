@@ -27,7 +27,8 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm turbo lint --force
+      - run: pnpm lint
+      - run: pnpm format:check
 
   typecheck:
     name: Type Check

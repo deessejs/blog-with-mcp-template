@@ -20,7 +20,7 @@ function getDb(): ReturnType<typeof drizzle> {
   if (!_db) {
     // Dynamic import to avoid ESM circular dependency issues while still
     // loading env vars at runtime (not build time).
-    // This is allowed for @workspace/env/server in eslint-config.
+    // This is allowed for @workspace/env/server in .oxlintrc.json.
     const envModule = require("@workspace/env/server") as {
       serverEnv: { DATABASE_URL: string | undefined }
     }
