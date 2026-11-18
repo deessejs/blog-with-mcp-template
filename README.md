@@ -1,4 +1,7 @@
-# Blog with MCP
+# DeesseJS Blog with MCP Template
+
+This repository is the DeesseJS blog template with remote MCP support.
+
 
 This is a single Next.js app in `apps/web`. The public homepage reads published Markdown from PostgreSQL. `/sign-in` supports administrator password login, and `/admin` requires an authenticated session whose persisted Better Auth role is `admin`; its page is currently a placeholder without article editing or publishing controls.
 
