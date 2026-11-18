@@ -1,20 +1,21 @@
-"use client";
+import { headers } from "next/headers";
+import { auth } from "@workspace/auth";
+import { verifyOAuthQueryParams } from "@better-auth/oauth-provider";
+import { ConsentActions } from "./consent-actions";
 
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-
-export default function ConsentPage() {
-  const params = useSearchParams();
-  const clientId = params.get("client_id") ?? "";
-  const scopes = useMemo(() => (params.get("scope") ?? "").split(/\s+/).filter(Boolean), [params]);
-  const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
-  async function decide(accept: boolean) {
-    setPending(true); setError(null);
-    const result = await authClient.oauth2.consent({ accept });
-    setPending(false);
-    if (result.error) setError(result.error.message ?? "Unable to process consent.");
-  }
-  return <main className="mx-auto max-w-xl p-8"><h1 className="text-2xl font-bold">Authorize MCP client</h1><p className="mt-4">Client: {clientId || "Unknown client"}</p><h2 className="mt-6 font-semibold">Requested access</h2>{scopes.length ? <ul className="list-disc pl-6">{scopes.map(scope => <li key={scope}>{scope}</li>)}</ul> : <p>No scopes requested.</p>}<div className="mt-6 flex gap-3"><button className="border px-4 py-2" disabled={pending} onClick={() => void decide(true)}>Approve</button><button className="border px-4 py-2" disabled={pending} onClick={() => void decide(false)}>Deny</button></div>{error && <p className="mt-4" role="alert">{error}</p>}</main>;
+type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
+export default async function ConsentPage({ searchParams }: Props) {
+ const params = await searchParams;
+ const queryEntries = Object.entries(params).flatMap(([key, value]) => (Array.isArray(value) ? value.map(v => [key, v] as const) : typeof value === "string" ? [[key, value] as const] : []));
+ const signedKeys = new Set(["sig", "ba_param", ...queryEntries.filter(([key]) => key === "ba_param").map(([, value]) => value)]);
+ const signedQuery = new URLSearchParams(queryEntries.filter(([key]) => signedKeys.has(key))).toString();
+ const { secret } = await auth.$context;
+ if (!(await verifyOAuthQueryParams(signedQuery, secret))) return <main className="p-8"><h1 className="text-2xl font-bold">Invalid or expired authorization request</h1></main>;
+ const query = new URLSearchParams(signedQuery); const clientId = query.get("client_id"); const redirectUri = query.get("redirect_uri");
+ if (!clientId || !redirectUri) return <main className="p-8"><h1 className="text-2xl font-bold">Incomplete authorization request</h1></main>;
+ const requestHeaders = await headers();
+ const client = await auth.api.getOAuthClientPublic({ query: { client_id: clientId }, headers: requestHeaders });
+ const redirectHost = new URL(redirectUri).host;
+ let claims: string[] = []; try { const value = JSON.parse(query.get("claims") ?? "{}"); claims = Object.keys(value.userinfo ?? {}); } catch { claims = []; }
+ return <main className="mx-auto max-w-xl p-8"><h1 className="text-2xl font-bold">Authorize MCP client</h1><ConsentActions clientName={client.client_name ?? clientId} redirectHost={redirectHost} scopes={(query.get("scope") ?? "").split(/\s+/).filter(Boolean)} claims={claims} /></main>;
 }

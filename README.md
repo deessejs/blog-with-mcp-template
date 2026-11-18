@@ -2,7 +2,7 @@
 
 This is a single Next.js app in `apps/web`. The public homepage reads published Markdown from PostgreSQL. `/sign-in` supports administrator password login, and `/admin` requires an authenticated session whose persisted Better Auth role is `admin`; its page is currently a placeholder without article editing or publishing controls.
 
-The protected `/api/mcp` endpoint offers published article listing/retrieval, draft retrieval, and a draft create/update tool. The tool creates an unpublished article and its initial draft together, or updates the one draft associated with an existing article. MCP does not publish articles. OAuth consent UI is still a placeholder, so the full interactive OAuth authorization experience is not complete.
+The protected `/api/mcp` endpoint offers published article listing/retrieval, draft retrieval, and a draft create/update tool. The tool creates an unpublished article and its initial draft together, or updates the one draft associated with an existing article. MCP does not publish articles. The consent page verifies the signed authorization query server-side, identifies the client from Better Auth, and lets the user approve or deny requested scopes and profile claims.
 
 ## Setup
 

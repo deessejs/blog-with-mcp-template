@@ -22,9 +22,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit",
-    "auth:generate": "pnpm exec auth generate --config ./src/auth.ts --output ../database/src/schema/auth.ts --yes",
-    "auth:bootstrap": "pnpm exec auth create-admin --config ./src/auth.ts --role admin"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "catalog:",
