@@ -25,7 +25,8 @@
     "drizzle-orm": "catalog:",
     "better-auth": "catalog:",
     "@better-auth/oauth-provider": "catalog:",
-    "@better-auth/mcp": "catalog:"
+    "@better-auth/mcp": "catalog:",
+    "@workspace/env": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",

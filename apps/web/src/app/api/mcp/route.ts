@@ -2,11 +2,12 @@ import { requireMcpAuth } from "@better-auth/mcp";
 import { createMcpHandler, McpServer } from "@modelcontextprotocol/server";
 import * as z from "zod";
 import { auth } from "@workspace/auth";
+import { serverEnv } from "@workspace/env/server";
 import { db } from "@workspace/database";
 import { article, articleDraft, user } from "@workspace/database/schema";
 import { and, desc, eq, isNotNull } from "drizzle-orm";
 
-const resource = `${process.env.BETTER_AUTH_URL}/api/mcp`;
+const resource = `${serverEnv.BETTER_AUTH_URL}/api/mcp`;
 const handler = (actorId: string) => createMcpHandler(() => {
   const server = new McpServer({ name: "blog-mcp", version: "0.1.0" });
   server.registerTool("list_published_articles", { description: "List published blog articles", inputSchema: z.object({}) }, async () => {

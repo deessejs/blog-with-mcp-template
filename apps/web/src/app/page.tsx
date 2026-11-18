@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { db } from "@workspace/database";
 import { article } from "@workspace/database/schema";
 import { desc, isNotNull } from "drizzle-orm";

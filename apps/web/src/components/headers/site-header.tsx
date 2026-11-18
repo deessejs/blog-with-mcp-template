@@ -5,10 +5,9 @@ import { Menu } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import { Sheet, SheetContent, SheetTrigger } from "@workspace/ui/components/sheet"
 import { APP_NAME } from "@workspace/ui/lib/config"
-import { SearchDialog } from "@/components/blog/search-dialog"
 
 const NAV_LINKS = [
-  { href: "/blog", label: "Blog" },
+  { href: "/", label: "Blog" },
 ]
 
 function NavLink({ href, label }: { href: string; label: string }) {
@@ -46,9 +45,6 @@ function MobileNav() {
             {APP_NAME}
           </Link>
         </div>
-        <div className="-mx-2">
-          <SearchDialog />
-        </div>
         <nav className="flex flex-col gap-4">
           {NAV_LINKS.map((link) => (
             <Link
@@ -76,9 +72,7 @@ export function SiteHeader() {
           </Link>
           <DesktopNav />
         </div>
-        <div className="flex items-center">
-          <SearchDialog />
-        </div>
+
       </div>
     </header>
   )
