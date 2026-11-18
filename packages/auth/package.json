@@ -29,7 +29,6 @@
   "dependencies": {
     "@better-auth/drizzle-adapter": "catalog:",
     "@workspace/database": "workspace:*",
-    "@workspace/email": "workspace:*",
     "@workspace/env": "workspace:*",
     "better-auth": "catalog:",
     "drizzle-orm": "catalog:",

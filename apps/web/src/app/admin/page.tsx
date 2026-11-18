@@ -1,5 +1,13 @@
-import Link from "next/link";
-
-export default function AdminPage() {
-  return <main className="mx-auto max-w-3xl p-8"><h1 className="text-3xl font-bold">Blog administration</h1><p className="mt-4">Administrator workspace for managing article drafts and publishing.</p><p className="mt-2">Draft editing and publishing actions are being built on the database article model.</p><Link className="mt-6 inline-block underline" href="/">View public blog</Link></main>;
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { auth } from "@workspace/auth";
+import { db } from "@workspace/database";
+import { user } from "@workspace/database/schema";
+import { eq } from "drizzle-orm";
+export default async function AdminPage() {
+ const session = await auth.api.getSession({ headers: await headers() });
+ if (!session) redirect("/sign-in");
+ const [actor] = await db.select({ role: user.role }).from(user).where(eq(user.id, session.user.id)).limit(1);
+ if (actor?.role !== "admin") redirect("/");
+ return <main className="mx-auto max-w-3xl p-8"><h1 className="text-3xl font-bold">Blog administration</h1><p className="mt-4">Administrator workspace. Draft editing and publishing UI are not implemented yet.</p></main>;
 }
