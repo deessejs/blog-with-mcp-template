@@ -1,17 +1,9 @@
 # Blog with MCP
 
-A single Next.js application in `apps/web` for a public blog and administrator workspace. Article bodies are Markdown stored in PostgreSQL; the published article and its editable draft are separate records so draft updates never change public content.
+Single Next.js application in `apps/web`; PostgreSQL data is modeled in `packages/database` with Drizzle. `article` stores the immutable published Markdown fields and `article_draft` stores at most one editable draft per article. The MCP route is `/api/mcp`; Better Auth provides OAuth authorization and the protected resource using its official MCP plugin. MCP reads published articles and can retrieve/update drafts. It has no publishing operation.
 
-## Development
+## Setup
 
-Use Node.js 22+ and pnpm 11. Copy `.env.example` to `.env` and configure `DATABASE_URL`, `BETTER_AUTH_URL`, and `BETTER_AUTH_SECRET`. Install dependencies with `pnpm install`, apply database migrations with `pnpm db:migrate`, then start `pnpm --filter web dev`.
+Use Node.js 22+ and pnpm 11. Configure `DATABASE_URL`, `BETTER_AUTH_URL`, and `BETTER_AUTH_SECRET` in the environment. Apply schema with `pnpm db:migrate`. Create the first administrator directly using `pnpm admin:bootstrap -- "Admin Name" admin@example.com 'long-password'`. This command provisions the account with Better Auth's server API and does not require email confirmation. Public email/password signup is disabled.
 
-The Better Auth handler is mounted at `/api/auth`. Administrator provisioning and the protected remote MCP tools are part of the foundation; configure an administrator before connecting an MCP client. MCP tools are read-only for published content and may create/update drafts; publishing remains an administrator UI action.
-
-## Architecture
-
-- `apps/web`: public Next.js experience, admin route, Better Auth route, and remote MCP route.
-- `packages/database`: Drizzle schema and migrations for Better Auth and published/draft article data.
-- `packages/auth`: Better Auth configuration.
-
-V1 intentionally excludes public sign-up, email verification, organizations, billing, and newsletters.
+The admin page is a foundation placeholder. Public DB-backed article rendering and article editing/publishing UI are not implemented yet.

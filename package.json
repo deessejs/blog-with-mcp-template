@@ -15,7 +15,8 @@
     "db:studio": "pnpm --filter @workspace/database db:studio",
     "auth:generate": "pnpm --filter @workspace/auth auth:generate",
     "env:check": "node --experimental-strip-types scripts/env-check.ts",
-    "dedupe:check": "pnpm dedupe --check"
+    "dedupe:check": "pnpm dedupe --check",
+    "admin:bootstrap": "node --experimental-strip-types scripts/bootstrap-admin.ts"
   },
   "devDependencies": {
     "@changesets/changelog-git": "catalog:",

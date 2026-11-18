@@ -1,6 +1,5 @@
 packages:
   - "apps/web"
-  - "apps/app"
   - "packages/*"
 
 # pnpm 11: explicit allowlist for build scripts

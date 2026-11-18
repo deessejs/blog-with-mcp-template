@@ -1,18 +1,3 @@
-import type { NextConfig } from "next"
-import { withContentCollections } from "@content-collections/next"
-
-const nextConfig: NextConfig = {
-  transpilePackages: ["@workspace/ui", "@workspace/env", "@workspace/cookies"],
-  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
-  serverExternalPackages: ["shiki"],
-  images: {
-    // Covers are external URLs (Unsplash, Cloudinary, etc.) — restrict to
-    // domains you actually use. See https://nextjs.org/docs/app/api-reference/components/image#remotepatterns
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "picsum.photos" },
-    ],
-  },
-}
-
-export default withContentCollections(nextConfig)
+import type { NextConfig } from "next";
+const nextConfig: NextConfig = { transpilePackages: ["@workspace/ui"] };
+export default nextConfig;
