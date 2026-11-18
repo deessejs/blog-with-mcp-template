@@ -19,8 +19,7 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "zustand": "catalog:",
-    "@better-auth/mcp": "^1.8.0",
-    "@modelcontextprotocol/server": "^2.0.0",
+    "@modelcontextprotocol/server": "catalog:",
     "@workspace/auth": "workspace:*",
     "@workspace/database": "workspace:*",
     "drizzle-orm": "catalog:"

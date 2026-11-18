@@ -23,7 +23,8 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
-    "auth:generate": "pnpm exec auth generate --config ./src/auth.ts --output ../database/src/schema/auth.ts --yes"
+    "auth:generate": "pnpm exec auth generate --config ./src/auth.ts --output ../database/src/schema/auth.ts --yes",
+    "auth:bootstrap": "pnpm exec auth create-admin --config ./src/auth.ts --role admin"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "catalog:",
@@ -33,7 +34,8 @@
     "better-auth": "catalog:",
     "drizzle-orm": "catalog:",
     "pg": "catalog:",
-    "postgres": "catalog:"
+    "postgres": "catalog:",
+    "@better-auth/mcp": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",

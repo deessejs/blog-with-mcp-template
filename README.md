@@ -1,9 +1,9 @@
 # Blog with MCP
 
-Single Next.js application in `apps/web`; PostgreSQL data is modeled in `packages/database` with Drizzle. `article` stores the immutable published Markdown fields and `article_draft` stores at most one editable draft per article. The MCP route is `/api/mcp`; Better Auth provides OAuth authorization and the protected resource using its official MCP plugin. MCP reads published articles and can retrieve/update drafts. It has no publishing operation.
+Single Next.js application in `apps/web`. PostgreSQL/Drizzle models published Markdown in `article` and one mutable draft per article in `article_draft`. The MCP endpoint at `/api/mcp` uses Better Auth MCP OAuth and administrator authorization. It lists and retrieves published content and retrieves or updates drafts; it has no publish operation.
 
 ## Setup
 
-Use Node.js 22+ and pnpm 11. Configure `DATABASE_URL`, `BETTER_AUTH_URL`, and `BETTER_AUTH_SECRET` in the environment. Apply schema with `pnpm db:migrate`. Create the first administrator directly using `pnpm admin:bootstrap -- "Admin Name" admin@example.com 'long-password'`. This command provisions the account with Better Auth's server API and does not require email confirmation. Public email/password signup is disabled.
+Use Node 22+ and pnpm 11. Set `DATABASE_URL`, `BETTER_AUTH_URL`, and `BETTER_AUTH_SECRET`. Apply migrations using `pnpm db:migrate`. Provision the initial administrator using Better Auth's official CLI through `pnpm admin:bootstrap -- --email admin@example.com --name Admin`; provide `--password` or enter the CLI prompt. The command creates an email-verified administrator without sending confirmation email. Runtime password signup is enabled for login but `disableSignUp` prevents public registration.
 
-The admin page is a foundation placeholder. Public DB-backed article rendering and article editing/publishing UI are not implemented yet.
+Public database article rendering and admin editing/publishing UI remain outside this foundation; the admin page is a placeholder.
