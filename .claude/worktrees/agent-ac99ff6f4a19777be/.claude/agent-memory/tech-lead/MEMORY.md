@@ -1,0 +1,1 @@
+- [Read-only by default](feedback-read-only-by-default.md) — demande d'analyse/audit/revue = lecture seule stricte, aucune commande mutante.
