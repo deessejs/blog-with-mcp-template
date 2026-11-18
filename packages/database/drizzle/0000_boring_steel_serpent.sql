@@ -32,11 +32,6 @@ CREATE TABLE "user" (
 	"email" text NOT NULL,
 	"email_verified" boolean DEFAULT false NOT NULL,
 	"image" text,
-	"role" text DEFAULT 'user' NOT NULL,
-	"banned" boolean DEFAULT false,
-	"ban_reason" text,
-	"ban_expires" timestamp,
-	"impersonated_by" text,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "user_email_unique" UNIQUE("email")

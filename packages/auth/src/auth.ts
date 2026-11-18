@@ -13,7 +13,7 @@ export const auth = betterAuth({
   trustedOrigins: [...(process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : []), ...serverEnv.ALLOWED_ORIGINS],
   database: drizzleAdapter(db, { provider: "pg", schema }),
   emailAndPassword: { enabled: true, disableSignUp: true },
-  plugins: [nextCookies(), admin(), jwt({ disableSettingJwtHeader: true }), mcp({ resource: `${serverEnv.BETTER_AUTH_URL}/api/mcp` })],
+  plugins: [nextCookies(), admin(), jwt({ disableSettingJwtHeader: true }), mcp({ loginPage: "/sign-in", consentPage: "/consent", resource: `${serverEnv.BETTER_AUTH_URL}/api/mcp` })],
 });
 
 export type AuthInstance = typeof auth;

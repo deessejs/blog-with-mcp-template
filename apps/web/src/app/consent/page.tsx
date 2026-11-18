@@ -1,0 +1,1 @@
+export default function ConsentPage() { return <main className="mx-auto max-w-xl p-8"><h1 className="text-2xl font-bold">MCP access consent</h1><p className="mt-4">OAuth consent UI is not implemented yet. Authorization requests requiring consent cannot be completed from this page.</p></main>; }

@@ -23,18 +23,21 @@ const handler = (actorId: string) => createMcpHandler(() => {
     const [row] = await db.select().from(articleDraft).where(eq(articleDraft.articleId, articleId)).limit(1);
     return { content: [{ type: "text", text: JSON.stringify(row ?? null) }] };
   });
-  server.registerTool("update_article_draft", { description: "Create a new unpublished article draft using slug, title, and markdown, or update the existing draft using articleId. Never publishes.", inputSchema: z.union([z.object({ articleId: z.string(), title: z.string(), markdown: z.string() }), z.object({ slug: z.string().min(1), title: z.string(), markdown: z.string() })]) }, async (input) => {
-    if ("articleId" in input) {
+  server.registerTool("update_article_draft", { description: "Create a new unpublished article draft using slug, title, and markdown, or update the existing draft using articleId. Never publishes.", inputSchema: z.object({ articleId: z.string().optional(), slug: z.string().min(1).optional(), title: z.string(), markdown: z.string() }) }, async (input) => {
+    if (Boolean(input.articleId) === Boolean(input.slug)) return { content: [{ type: "text", text: "Provide exactly one of articleId or slug." }], isError: true };
+    if (input.articleId) {
       const [parent] = await db.select({ id: article.id }).from(article).where(eq(article.id, input.articleId)).limit(1);
       if (!parent) return { content: [{ type: "text", text: "Article not found" }], isError: true };
       await db.insert(articleDraft).values({ id: crypto.randomUUID(), articleId: input.articleId, title: input.title, markdown: input.markdown, updatedBy: actorId }).onConflictDoUpdate({ target: articleDraft.articleId, set: { title: input.title, markdown: input.markdown, updatedBy: actorId, updatedAt: new Date() } });
       return { content: [{ type: "text", text: "Draft saved. It remains unpublished." }] };
     }
-    const [existing] = await db.select({ id: article.id }).from(article).where(eq(article.slug, input.slug)).limit(1);
+    const [existing] = await db.select({ id: article.id }).from(article).where(eq(article.slug, input.slug!)).limit(1);
     if (existing) return { content: [{ type: "text", text: "Slug already exists; use articleId to update its draft." }], isError: true };
     const articleId = crypto.randomUUID();
-    await db.insert(article).values({ id: articleId, slug: input.slug, publishedTitle: null, publishedMarkdown: null, publishedAt: null });
-    await db.insert(articleDraft).values({ id: crypto.randomUUID(), articleId, title: input.title, markdown: input.markdown, updatedBy: actorId });
+    await db.transaction(async (tx) => {
+      await tx.insert(article).values({ id: articleId, slug: input.slug!, publishedTitle: null, publishedMarkdown: null, publishedAt: null });
+      await tx.insert(articleDraft).values({ id: crypto.randomUUID(), articleId, title: input.title, markdown: input.markdown, updatedBy: actorId });
+    });
     return { content: [{ type: "text", text: JSON.stringify({ articleId, slug: input.slug, status: "draft" }) }] };
   });
   return server;

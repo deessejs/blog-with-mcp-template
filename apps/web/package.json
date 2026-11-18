@@ -22,7 +22,8 @@
     "@modelcontextprotocol/server": "catalog:",
     "@workspace/auth": "workspace:*",
     "@workspace/database": "workspace:*",
-    "drizzle-orm": "catalog:"
+    "drizzle-orm": "catalog:",
+    "better-auth": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",
