@@ -1,0 +1,21 @@
+{
+  "name": "@workspace/utils",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./safe-redirect": "./src/safe-redirect.ts"
+  },
+  "scripts": {
+    "lint": "pnpm --dir ../../ exec oxlint --config .oxlintrc.json packages/utils --deny-warnings",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@workspace/typescript-config": "workspace:*",
+    "vitest": "catalog:"
+  }
+}
